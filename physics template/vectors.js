@@ -9,7 +9,9 @@ class Vector {
     }
 
     setX(value){
+        console.log('x was ' + this._x)
         this._x = value;
+        console.log('x was set to ' + this._x)
     }
 
     getY(){
@@ -17,7 +19,19 @@ class Vector {
     }
 
     setY(value){
+        console.log('y was ' + this._y)
+        let i = 0
         this._y = value;
+        let d = document.getElementById('d')
+                    d.innerHTML = `
+                    *******setY func****************** <br>
+                    times called: ${i} <br>
+                    vel length: ${a.velocity.getLength()} <br>
+                    accel length: ${a.acceleration.getLength()} <br>
+                    vel angle: ${a.velocity.getAngle()} <br>
+                    accel angle: ${a.velocity.getAngle()} <br>`
+        console.log('y was set to ' + this._y)
+
     }
 
     setAngle(angle){

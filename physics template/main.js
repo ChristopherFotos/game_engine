@@ -34,7 +34,7 @@ function update() {
     ship.drawShip();
     block.draw();
 
-    projectilesArray.forEach(projectile =>{
+    projectilesArray.forEach(projectile => {
         projectile.update();
     })
 
@@ -43,5 +43,25 @@ function update() {
 
 update();
 
+class Scene {
+    constructor(canvas_ID){
+        this.canvas = document.querySelector(`${canvas_ID}`);
+        this.width = this.canvas.width;
+        this.height = this.canvas.height;
+        this.context = this.canvas.getContext('2d');
+        this.circleProps = [];
+        this.rectProps = [];
+        this.pointProps = [];
+    }
+
+    update(){
+        if(this.rectProps.length > 0){
+            rectProps.forEach(prop => {
+                prop.update
+            })
+        }
+        requestAnimationFrame(this.update);
+    }
+}
 
 

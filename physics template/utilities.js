@@ -50,8 +50,8 @@ var utils = {
 	},
 
 	rectIntersect: function(r0, r1) {
-		return utils.rangeIntersect(r0._x, r0._x + r0.width, r1._x, r1._x + r1.width) &&
-			   utils.rangeIntersect(r0._y, r0._y + r0.height, r1._y, r1._y + r1.height);
+		return utils.rangeIntersect(r0.position._x, r0.position._x + r0.width, r1.position._x, r1.position._x + r1.width) &&
+			   utils.rangeIntersect(r0.position._y, r0.position._y + r0.height, r1.position._y, r1.position._y + r1.height);
 	},
 
 	collisionAxisDetector: function(r0, r1){
@@ -82,5 +82,7 @@ var utils = {
 		}
 		return total / iterations;
 	}
+
+	
 
 }

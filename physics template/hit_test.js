@@ -31,10 +31,9 @@ var hit_2 = {
     update: function(){
         this._x = ship.position._x; 
         this._y = ship.position._y;
-
-        //make every object store its position from last frame. 
-        //if the delta between the X value of the object's previous position and the x value of the other object's current position, 
-
+        //in the following loop I'm going to have to prepend every instance of *props this 'scene.'. But that means that the user can only 
+        //call their scene 'scene,' which will limit them to one scene per document. This is not good enough. 
+        // 
         for (let i = 0; i < rectProps.length; i++){
             if(utils.rectIntersect(rectProps[i], hit_2)){
                 player_bottom = hit_2._y + hit_2.height;
@@ -47,7 +46,7 @@ var hit_2 = {
                 l_collision = player_right - rectProps[i]._x;
                 r_collision = tiles_right - hit_2._x;
 
-                // console.log(`bottom: + ${b_collision}, "top" + ${t_collision}, "left:" ${l_collision}, right: ${r_collision}`)
+                
                 
                 if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision )
                 {       
@@ -136,5 +135,4 @@ var hit_6 = {
         context.stroke();
         context.strokeStyle = 'black';
     }
-
 }
