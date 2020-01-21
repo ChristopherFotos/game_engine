@@ -1,6 +1,6 @@
 class Prop {
     constructor(scene, {shape, radius, width, stroke, fill, strokeColor, fillColor, height, x, y, speed, direction, 
-        mass, accelMag, friction, collision, movement, movementArray, collisionArray, controls = [], bitmap} = {}){
+        mass, accelMag, friction, elasticity, minSpeed, collision, movement, movementArray, collisionArray, controls = [], bitmap} = {}){
 
         this.scene = scene;
         this.shape = shape;
@@ -26,9 +26,11 @@ class Prop {
         this.movement = movement;
         this.movementArray = movementArray;
         this.friction = friction;
+        this.elasticity = (elasticity * -1);
+        this.minSpeed = minSpeed;
         this.controls = controls;
         this.initToRenderArray();
-        this.initToCollisionArray();
+        // this.initToCollisionArray();
     }
 
     initToRenderArray(){
@@ -43,14 +45,19 @@ class Prop {
 
     accel(){
         this.velocity.addTo(this.acceleration);
-        this.position.addTo(this.velocity)
-        this.velocity.multiplyBy(this.friction)
-        this.acceleration.multiplyBy(this.friction)
+        this.position.addTo(this.velocity);
+        this.velocity.multiplyBy(this.friction);
+        this.acceleration.multiplyBy(this.friction);
+
+        if((this.position._y + this.height) < (this.scene.height - 0.0001)){
+            this.velocity._y += this.mass;
+        }
 
         if(this.movement = 'default'){
             let a = this.velocity.getAngle();
             this.acceleration.setAngle(a);
         }
+
     }
 
 
@@ -59,13 +66,13 @@ class Prop {
         this.position._x + this.width> this.scene.width){
 
             this.acceleration.multiplyBy(-1);
-            this.velocity._x *= -1
+            this.velocity._x *= this.elasticity
         };
 
         if(this.position._y < 0 || 
         this.position._y + this.height > this.scene.height){
             this.acceleration.multiplyBy(-1);
-            this.velocity._y *= -1    
+            this.velocity._y *= this.elasticity  
         }
     }
 
@@ -89,7 +96,7 @@ class Prop {
                 }
                 if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision)                        
                 {
-                    this.velocity.setY(this.velocity.getY() * -1);
+                    this.velocity.setY(this.velocity.getY() * this.elasticity);
                 }
                 if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
                 {
