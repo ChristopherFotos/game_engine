@@ -17,6 +17,7 @@ class Vector {
     }
 
     setY(value){
+        let i = 0
         this._y = value;
     }
 
