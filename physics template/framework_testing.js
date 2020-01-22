@@ -117,6 +117,19 @@ document.body.addEventListener('keydown', e => {
     )
 })
 
+document.body.addEventListener('keydown', e => {
+    if(e.keyCode === 71){
+       switch(scene.gravity){
+           case true:
+               scene.gravity = false
+               break;
+            case false: 
+                scene.gravity = true
+                break;
+       }
+    }
+})
+
 // let c = scene.add(
 //     scene,
 //     {
