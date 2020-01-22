@@ -1,6 +1,6 @@
 class Prop {
     constructor(scene, {shape, radius, width, stroke, fill, strokeColor, fillColor, height, x, y, speed, direction, 
-        mass, accelMag, friction, elasticity, minSpeed, collision, movement, movementArray, collisionArray, controls = [], bitmap} = {}){
+        mass, solid, accelMag, friction, elasticity, minSpeed, collision, movement, movementArray, collisionArray, controls = [], bitmap} = {}){
 
         this.scene = scene;
         this.shape = shape;
@@ -20,6 +20,7 @@ class Prop {
         this.velocity.setLength(speed);
         this.velocity.setAngle(this.direction);
         this.mass = mass;
+        this.solid = solid;
         this.acceleration = new Vector(0, 0);
         this.acceleration.setLength(accelMag);
         this.acceleration.setAngle(this.direction);
@@ -94,12 +95,34 @@ class Prop {
                                
                 if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision )
                 {  
-                    this.velocity._y += this.scene.rectProps[i].velocity._y * 0.98
+                    if(this.velocity._y < 0 && this.scene.rectProps[i].velocity._y <0){
+                        this.velocity._y -= this.scene.rectProps[i].velocity._y * this.elasticity
+                    } else if(this.velocity._y > 0 && this.scene.rectProps[i].velocity._y > 0){ 
+                        this.velocity._y -= (this.elasticity) * -1
+                    } else if(this.velocity._y > 0 && this.scene.rectProps[i].velocity._y < 0){
+                        this.velocity._y *= (this.elasticity * -1) * (this.scene.rectProps[i].velocity._y * (this.friction / this.mass))
+                    } else if(this.scene.rectProps[i].velocity._x === 0){
+                        this.scene.rectProps[i].velocity._y += this.velocity._y / this.scene.rectProps[i].mass
+                    };
+
+                    if(this.scene.gravity){
+                        if(this.scene.rectProps[i].position._y + this.scene.rectProps[i].height > this.scene.height - 0.1){
+                                this.velocity._y = 0
+                        }
+                    }
                 }
 
                 if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision)                        
                 {
-                    this.velocity._y -= this.scene.rectProps[i].velocity._y * 1.2
+                    if(this.velocity._y < 0 && this.scene.rectProps[i].velocity._y < 0){
+                        this.velocity._y += this.scene.rectProps[i].velocity._y * this.elasticity
+                    } else if(this.velocity._y > 0 && this.scene.rectProps[i].velocity._y > 0){ 
+                        this.velocity._y -= (this.elasticity * 10) 
+                    } else if(this.velocity._y < 0 && this.scene.rectProps[i].velocity._y > 0){
+                        this.velocity._y *= this.elasticity * this.scene.rectProps[i].velocity._y
+                    } else if(this.scene.rectProps[i].velocity._y === 0){
+                        this.scene.rectProps[i].velocity._y += this.velocity._y / this.scene.rectProps[i].mass
+                    };
                 }
                 if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
                 {
@@ -109,7 +132,9 @@ class Prop {
                         this.velocity._x -= (this.elasticity) * -1
                     } else if(this.velocity._x > 0 && this.scene.rectProps[i].velocity._x < 0){
                         this.velocity._x *= (this.elasticity * -1) * (this.scene.rectProps[i].velocity._x * (this.friction / this.mass))
-                    }
+                    } else if(this.scene.rectProps[i].velocity._x === 0){
+                        this.scene.rectProps[i].velocity._x += this.velocity._x / this.scene.rectProps[i].mass
+                    };
                 }
 
                 if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision )
@@ -120,7 +145,10 @@ class Prop {
                         this.velocity._x -= (this.elasticity * 10) 
                     } else if(this.velocity._x < 0 && this.scene.rectProps[i].velocity._x > 0){
                         this.velocity._x *= this.elasticity * this.scene.rectProps[i].velocity._x
-                    }
+                    } else if(this.scene.rectProps[i].velocity._x === 0){
+                        this.scene.rectProps[i].velocity._x += this.velocity._x / this.scene.rectProps[i].mass
+                    };
+
                 }
             } 
         }
@@ -144,11 +172,9 @@ class Prop {
     }
 
     update(){
-            this.accel()
-            this.collide();
-            if(this.collision === 'edgeBounce'){
-                this.edgeBounce();
-            }
+            this.accel();
+            if(this.solid){this.collide()};
+            if(this.collision === 'edgeBounce'){this.edgeBounce()};
             this.draw();
     }
 }

@@ -1,53 +1,121 @@
-const scene  = new Scene("canvas", window.innerWidth, window.innerHeight, true);
+const scene  = new Scene("canvas", window.innerWidth, window.innerHeight);
 startScene(scene);
 
-let a  = scene.add(
-    scene,
-    {
-        shape: 'rectangle',
-        width: 100,
-        height: 100,
-        x: 400,
-        y: 300,
-        strokeColor: 'blue',
-        stroke: true,
-        accelMag: 0.02,
-        speed: 5,
-        direction: 0,
-        friction: 0.98,
-        movement: 'default',
-        collision: 'edgeBounce',
-        mass: 2,
-        elasticity: 0.85,
-        // collisionArray:
+// let blue  = scene.add(
+//     scene,
+//     {
+//         shape: 'rectangle',
+//         width: 100,
+//         height: 100,
+//         x: 320,
+//         y: 300,
+//         strokeColor: 'blue',
+//         stroke: true,
+//         accelMag: 0.0,
+//         speed: 2,
+//         direction: 4.7,
+//         friction: 0.98,
+//         movement: 'default',
+//         collision: 'edgeBounce',
+//         mass: 1,
+//         elasticity: 0.4,
+//         // collisionArray:
+//     }
+// )
+
+// let green = scene.add(
+//     scene,
+//     {
+//         shape: 'rectangle',
+//         width: 100,
+//         height: 100,
+//         x: 320,
+//         y: 350,
+//         strokeColor: 'green',
+//         stroke: true,
+//         accelMag: 0,
+//         speed: 1,
+//         direction: 4.7,
+//         movement: 'default',
+//         friction: 0.98,
+//         collision: 'edgeBounce',
+//         mass: 1,
+//         elasticity: 0.7,
+//         // collisionArray:
+//     }
+// )
+
+// let purple = scene.add(
+//     scene,
+//     {
+//         shape: 'rectangle',
+//         width: 100,
+//         height: 100,
+//         x: 20,
+//         y: scene.height - 210,
+//         strokeColor: 'purple',
+//         stroke: true,
+//         accelMag: 0,
+//         speed: 10,
+//         direction: 0,
+//         movement: 'default',
+//         friction: 0.98,
+//         collision: 'edgeBounce',
+//         mass: 2,
+//         elasticity: 0.8,
+//         // collisionArray:
+//     }
+// )
+
+
+let colors = ['#E4572E','#16BAC5','#5FBFF9','FFEEDB','73FBD3'];
+
+document.body.addEventListener('mousemove', e => {
+    _mx = e.pageX;
+    _my = e.pageY
+});
+
+function dir(keyCode){
+    switch(keyCode){
+        case 65:
+            return 15.75
+            break;
+        case 68:
+            return 0
+            break;
+        case 87:
+            return 4.7;
+            break;
+        case 83:
+            return 1.5
     }
-)
+}
 
-let b = scene.add(
-    scene,
-    {
-        shape: 'rectangle',
-        width: 100,
-        height: 100,
-        x: 620,
-        y: 300,
-        strokeColor: 'green',
-        stroke: true,
-        accelMag: 0.02,
-        speed: 10,
-        direction: 15.5,
-        movement: 'default',
-        friction: 0.97,
-        collision: 'edgeBounce',
-        mass: 2,
-        elasticity: 0.85,
-        // collisionArray:
-    }
-)
+document.body.addEventListener('keydown', e => {
 
-console.log(a.velocity._x)
-console.log(b.velocity._x)
-
+        scene.add(
+        scene,
+        {
+            shape: 'rectangle',
+            width: 20,
+            height: 20,
+            x: _mx,
+            y: _my - 50,
+            strokeColor: 'gray',
+            fill: true,
+            fillColor: colors[Math.floor(utils.randomRange(0, 4))],
+            accelMag: 0.02,
+            speed: 9    ,
+            solid: true,
+            direction: dir(e.keyCode),
+            movement: 'default',
+            friction: 0.98,
+            
+            mass: 0.2,
+            elasticity: 0.5,  
+        }
+    )
+})
 
 // let c = scene.add(
 //     scene,
