@@ -81,8 +81,14 @@ var utils = {
 			total += utils.randomRange(min, max);
 		}
 		return total / iterations;
-	}
+	},
 
-	
+	compareSigns: function(a, b){
+		if((a > 0 && b > 0) || (a < 0 && b < 0)){
+			return true
+		} else {
+			return false
+		}
+	}
 
 }

@@ -49,9 +49,11 @@ class Prop {
         this.velocity.multiplyBy(this.friction);
         this.acceleration.multiplyBy(this.friction);
 
-        if((this.position._y + this.height) < (this.scene.height - 0.0001)){
-            this.velocity._y += this.mass;
-        }
+        if(this.scene.gravity){
+            if((this.position._y + this.height) < (this.scene.height - 0.0001)){
+                this.velocity._y += this.mass;
+            }
+        }    
 
         if(this.movement = 'default'){
             let a = this.velocity.getAngle();
@@ -92,19 +94,33 @@ class Prop {
                                
                 if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision )
                 {  
-                    this.velocity.setY(this.velocity.getY() * -1);
+                    this.velocity._y += this.scene.rectProps[i].velocity._y * 0.98
                 }
+
                 if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision)                        
                 {
-                    this.velocity.setY(this.velocity.getY() * this.elasticity);
+                    this.velocity._y -= this.scene.rectProps[i].velocity._y * 1.2
                 }
                 if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision)
                 {
-                    this.velocity.setX(this.velocity.getX() * -1);
+                    if(this.velocity._x < 0 && this.scene.rectProps[i].velocity._x <0){
+                        this.velocity._x -= this.scene.rectProps[i].velocity._x * this.elasticity
+                    } else if(this.velocity._x > 0 && this.scene.rectProps[i].velocity._x > 0){ 
+                        this.velocity._x -= (this.elasticity) * -1
+                    } else if(this.velocity._x > 0 && this.scene.rectProps[i].velocity._x < 0){
+                        this.velocity._x *= (this.elasticity * -1) * (this.scene.rectProps[i].velocity._x * (this.friction / this.mass))
+                    }
                 }
+
                 if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision )
                 {
-                    this.velocity.setX(this.velocity.getX() * -1);
+                    if(this.velocity._x < 0 && this.scene.rectProps[i].velocity._x < 0){
+                        this.velocity._x += this.scene.rectProps[i].velocity._x * this.elasticity
+                    } else if(this.velocity._x > 0 && this.scene.rectProps[i].velocity._x > 0){ 
+                        this.velocity._x -= (this.elasticity * 10) 
+                    } else if(this.velocity._x < 0 && this.scene.rectProps[i].velocity._x > 0){
+                        this.velocity._x *= this.elasticity * this.scene.rectProps[i].velocity._x
+                    }
                 }
             } 
         }

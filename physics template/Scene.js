@@ -1,10 +1,11 @@
 class Scene {
-    constructor(canvas_ID, width, height){
+    constructor(canvas_ID, width, height, gravity = false){
         this.canvas = document.querySelector(canvas_ID);
         this.canvas.width = width;
         this.canvas.height = height;
         this.width = this.canvas.width;
         this.height = this.canvas.height;
+        this.gravity = gravity
         this.context = this.canvas.getContext('2d');
         //the following array holds props to be rendered. The update function loops through this array and calls update on each item.
         this.render = [];
