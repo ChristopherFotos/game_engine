@@ -1,0 +1,13 @@
+html, body {
+    margin: 0px;
+    font-family: 'Montserrat';
+    
+}
+
+canvas {
+    display: block;
+}
+
+#a {
+    padding-left: 30px;
+}
