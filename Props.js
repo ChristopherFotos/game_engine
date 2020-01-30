@@ -1,6 +1,6 @@
 class Prop {
     constructor(scene, {shape, radius, width, stroke, fill, strokeColor, fillColor, height, x, y, fixed, speed, direction, 
-        mass, solid, accelMag, customProperties, customFunctions, friction, elasticity, minSpeed, collision, nograv, movement, movementArray, collisionArray, controls = [], bitmap} = {}){
+        mass, solid, accelMag, customProperties, customFunctions, collisionFunctions, friction, elasticity, minSpeed, collision, nograv, movement, movementArray, controls = [], bitmap} = {}){
 
         this.scene = scene;
         this.shape = shape;
@@ -12,7 +12,6 @@ class Prop {
         this.fillColor = fillColor;
         this.strokeColor = strokeColor;
         this.collision = collision;
-        this.collisionArray = collisionArray;
         this.bitmap = bitmap;
         this.position = new Vector(x, y);
         this.direction = direction;
@@ -27,7 +26,7 @@ class Prop {
         this.movement = movement;
         this.movementArray = movementArray;
         this.friction = friction;
-        this.elasticity = (elasticity * -1);
+        this.elasticity = elasticity;
         this.minSpeed = minSpeed;
         this.controls = controls;
         this.nograv = nograv;
@@ -35,10 +34,11 @@ class Prop {
         this.fixed = fixed;
         this.customProperties = customProperties;
         this.customFunctions = customFunctions;
+        this.collisionFunctions = collisionFunctions;
+        this.colliding = false;
+        this.render = true;
         
     }
-
-
 
     initToRenderArray(){
         this.scene.rectProps.unshift(this)
@@ -95,9 +95,18 @@ class Prop {
         boundCollision()
     }
 
-    isColliding(){
-
+    handleCollision(){
+        for (let i = 0; i < this.scene.rectProps.length; i++){
+            if(utils.rectIntersect(this.scene.rectProps[i], this) && this.scene.rectProps[i] != this){
+                this.collisionFunctions.forEach(cfunc => {
+                    let bcfunc = cfunc.bind(this)
+                    bcfunc()
+                })
+            }
+        }
     };
+
+
 
     draw(){
         if(this.shape = 'rectangle'){
@@ -117,12 +126,17 @@ class Prop {
     }
 
     update(){
+        if(this.render){ 
+
             this.accel();
+
             if(this.solid){this.collide()};
+
             if(this.collision === 'edgeBounce'){this.edgeBounce()};
+            
             if(this.fixedX){
                 console.log('fixedX')
-                this.position._x = fixedX
+                this.position._x = this.fixedX
             };
 
             if(this.fixedY){
@@ -130,9 +144,21 @@ class Prop {
                 this.position._y = fixedY
             }
 
-            this.draw();
+           if(this.customFunctions){ 
+                this.customFunctions.forEach(func => {
+                let bfunc = func.bind(this);
+                bfunc()    
+                }
+              );
+           }
 
-            
+          if(this.collisionFunctions){
+              this.handleCollision()
+            }
+
+           this.draw(); 
+        } else {this.position = new Vector(undefined, undefined)}
     }
 
 }
+

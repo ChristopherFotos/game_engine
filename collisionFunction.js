@@ -17,14 +17,14 @@ function collisionFunction(){
             {  
                 
                     let _f = this.mass * this.velocity.getLength();
-                    this.scene.rectProps[i].velocity._y += (_f / this.scene.rectProps[i].mass)
+                    this.scene.rectProps[i].velocity._y += ((_f / this.scene.rectProps[i].mass) * (this.elasticity * this.scene.rectProps[i].elasticity))
                 } 
 
             if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision)                        
             {
                 
                     let _f = this.mass * this.velocity.getLength();
-                    this.scene.rectProps[i].velocity._y -= (_f / this.scene.rectProps[i].mass)
+                    this.scene.rectProps[i].velocity._y -= ((_f / this.scene.rectProps[i].mass) * (this.elasticity * this.scene.rectProps[i].elasticity))
 
       
             }
@@ -32,7 +32,7 @@ function collisionFunction(){
             {
                
                     let _f = this.mass * this.velocity.getLength();
-                    this.scene.rectProps[i].velocity._x += (_f / this.scene.rectProps[i].mass)
+                    this.scene.rectProps[i].velocity._x += ((_f / this.scene.rectProps[i].mass) * (this.elasticity * this.scene.rectProps[i].elasticity))
                 
  
             }
@@ -41,14 +41,17 @@ function collisionFunction(){
             {
                 
                     let _f = this.mass * this.velocity.getLength();
-                    this.scene.rectProps[i].velocity._x -= (_f / this.scene.rectProps[i].mass)
+                    this.scene.rectProps[i].velocity._x -= ((_f / this.scene.rectProps[i].mass) * (this.elasticity * this.scene.rectProps[i].elasticity))
                 
   
             }
         } 
         
-        return true
+        this.colliding = true
 
-      }
+      } else{this.colliding = false};
+
+      
+
     }
 }
