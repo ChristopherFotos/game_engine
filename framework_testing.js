@@ -54,74 +54,44 @@ document.body.addEventListener('keydown', e => {
 })
 
 function hurt(){
-    
-    this.render = false
-
-        // for(let i = 0; i < 4; i++){
-            
-        //     let _width = this.width
-        //     let _height = this.height
-        //     let _x = this.position._x
-        //     let _y = this.position._y
-        //     scene.add(
-        //     scene,
-        //         {
-        //             shape: 'rectangle',
-        //             width: _width * 0.20,
-        //             height: _height * 0.20,
-        //             x: _x,
-        //             y: _y,
-        //             strokeColor: 'gray',
-        //             fill: true,
-        //             fillColor: colors[Math.floor(utils.randomRange(0, 4))],
-        //             accelMag: 0,
-        //             speed: 0,
-        //             solid: true,
-        //             direction: Math.random() * 100,
-        //             movement: 'default',
-        //             friction: 0.965,
-        //             collision: 'edgeBounce',
-        //             mass: 9,   
-        //             elasticity: 1,
-        //             nograv: true,
-        //         }
-        // )}
+    this.customProperties.health -= 1
 };
 
-// function die(){
-//     if(this.customProperties.health < 0){
-//         console.log('death')
-//         for(let i = 0; i < 4; i++){
-//             this.scene.rectProps.pop(this)
-//             let _width = this.width
-//             let _height = this.height
-//             let _x = this.position._x
-//             let _y = this.position._y
-//             scene.add(
-//             scene,
-//             {
-//                 shape: 'rectangle',
-//                 width: _width * 0.20,
-//                 height: _height * 0.20,
-//                 x: _x,
-//                 y: _y,
-//                 strokeColor: 'gray',
-//                 fill: true,
-//                 fillColor: colors[Math.floor(utils.randomRange(0, 4))],
-//                 accelMag: 0,
-//                 speed: 0,
-//                 solid: true,
-//                 direction: Math.random() * 100,
-//                 movement: 'default',
-//                 friction: 0.965,
-//                 collision: 'edgeBounce',
-//                 mass: 9,   
-//                 elasticity: 1,
-//                 nograv: true,
-//             }
-//         )}
-//     }
-// }
+function die(){
+    if(this.customProperties.health < 0){
+        console.log('death')
+        this.render = false
+        for(let i = 0; i < 4; i++){
+            this.scene.rectProps.pop(this)
+            let _width = this.width
+            let _height = this.height
+            let _x = this.position._x
+            let _y = this.position._y
+            scene.add(
+            scene,
+            {
+                shape: 'rectangle',
+                width: _width * 0.20,
+                height: _height * 0.20,
+                x: _x,
+                y: _y,
+                strokeColor: 'gray',
+                fill: true,
+                fillColor: colors[Math.floor(utils.randomRange(0, 4))],
+                accelMag: 0,
+                speed: 0,
+                solid: true,
+                direction: Math.random() * 100,
+                movement: 'default',
+                friction: 0.965,
+                collision: 'edgeBounce',
+                mass: 9,   
+                elasticity: 1,
+                nograv: true,
+            }
+        )}
+    }
+}
 
 document.body.addEventListener('keydown', e => {
     if(!ribbon){scene.add(
@@ -144,10 +114,6 @@ document.body.addEventListener('keydown', e => {
         mass: 5,
         collision: 'edgeBounce',
         elasticity: 0.6,
-        customProperties: {
-            health: 5
-        },
-        collisionFunctions: [hurt],
     }
 )}
 })
@@ -183,31 +149,27 @@ document.body.addEventListener('mousemove', e => {
    }
 })
 
-// let blocky_blocky = scene.add(
-//     scene,
-//     {
-//         shape: 'rectangle',
-//         width: 200,
-//         height: 200,
-//         x: 200,
-//         y: 200,
-//         strokeColor: 'gray',
-//         fill: true,
-//         fillColor: 'black',
-//         accelMag: 0,
-//         speed: 0,
-//         solid: true,
-//         direction: Math.random() * 100,
-//         movement: 'default',
-//         friction: 0.965,
-//         collision: 'edgeBounce',
-//         mass: 999999,
-//         elasticity: 1,
-//         nograv: true,
-//         customProperties: {
-//             health: 5
-//         },
-//         customFunctions: [hurt, die]
-//     }
-// )
+let blocky_blocky = scene.add(
+    scene,
+    {
+        shape: 'rectangle',
+        width: 200,
+        height: 200,
+        x: 200,
+        y: 200,
+        strokeColor: 'gray',
+        fill: true,
+        fillColor: 'black',
+        accelMag: 0,
+        speed: 0,
+        solid: true,
+        direction: Math.random() * 100,
+        movement: 'default',
+        friction: 0.965,
+        collision: 'edgeBounce',
+        mass: 999999,
+        elasticity: 1,
+        nograv: true,
+    }
+)
 
