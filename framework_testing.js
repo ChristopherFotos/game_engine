@@ -78,12 +78,12 @@ document.body.addEventListener('keydown', e => {
 
 function hurt(){
     this.customProperties.health -= 1
-    console.log(this)
+    this.width *= 0.9
+    this.height *= 0.9
 };
 
 function die(){
     if(this.customProperties.health < 0){
-        console.log('death ' + this.fillColor + ' ' + this.customProperties.health)
         this.render = false
         for(let i = 0; i < 4; i++){
             let _width = this.width
