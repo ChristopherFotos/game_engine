@@ -157,7 +157,9 @@ class Prop {
             }
 
            this.draw(); 
-        } else {this.position = new Vector(undefined, undefined)}
+        } else {
+            this.position = new Vector(undefined, undefined)
+        }
     }
 
 }

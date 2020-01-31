@@ -1,4 +1,4 @@
-const scene  = new Scene("canvas", window.innerWidth * 1.5, window.innerHeight * 1.5);
+const scene  = new Scene("canvas", window.innerWidth, window.innerHeight);
 startScene(scene);
 
 let colors = ['#E4572E','#16BAC5','#5FBFF9','#FFEEDB','#73FBD3'];
@@ -37,6 +37,29 @@ document.body.addEventListener('keydown', e => {
     }
 })
 
+let control = false;
+
+document.body.addEventListener('keydown', e => { 
+    if(e.keyCode === 51){
+        switch(control){
+        case true:
+        control = false
+        break;
+        case false: 
+        control = true
+        break;
+        }
+    }
+});
+
+
+
+document.body.addEventListener('keydown', e => { 
+    if(e.keyCode === 52){
+        control = false
+    }
+});
+
 
 
 
@@ -54,77 +77,52 @@ document.body.addEventListener('keydown', e => {
 })
 
 function hurt(){
-    
-    this.render = false
-
-        // for(let i = 0; i < 4; i++){
-            
-        //     let _width = this.width
-        //     let _height = this.height
-        //     let _x = this.position._x
-        //     let _y = this.position._y
-        //     scene.add(
-        //     scene,
-        //         {
-        //             shape: 'rectangle',
-        //             width: _width * 0.20,
-        //             height: _height * 0.20,
-        //             x: _x,
-        //             y: _y,
-        //             strokeColor: 'gray',
-        //             fill: true,
-        //             fillColor: colors[Math.floor(utils.randomRange(0, 4))],
-        //             accelMag: 0,
-        //             speed: 0,
-        //             solid: true,
-        //             direction: Math.random() * 100,
-        //             movement: 'default',
-        //             friction: 0.965,
-        //             collision: 'edgeBounce',
-        //             mass: 9,   
-        //             elasticity: 1,
-        //             nograv: true,
-        //         }
-        // )}
+    this.customProperties.health -= 1
+    console.log(this)
 };
 
-// function die(){
-//     if(this.customProperties.health < 0){
-//         console.log('death')
-//         for(let i = 0; i < 4; i++){
-//             this.scene.rectProps.pop(this)
-//             let _width = this.width
-//             let _height = this.height
-//             let _x = this.position._x
-//             let _y = this.position._y
-//             scene.add(
-//             scene,
-//             {
-//                 shape: 'rectangle',
-//                 width: _width * 0.20,
-//                 height: _height * 0.20,
-//                 x: _x,
-//                 y: _y,
-//                 strokeColor: 'gray',
-//                 fill: true,
-//                 fillColor: colors[Math.floor(utils.randomRange(0, 4))],
-//                 accelMag: 0,
-//                 speed: 0,
-//                 solid: true,
-//                 direction: Math.random() * 100,
-//                 movement: 'default',
-//                 friction: 0.965,
-//                 collision: 'edgeBounce',
-//                 mass: 9,   
-//                 elasticity: 1,
-//                 nograv: true,
-//             }
-//         )}
-//     }
-// }
+function die(){
+    if(this.customProperties.health < 0){
+        console.log('death ' + this.fillColor + ' ' + this.customProperties.health)
+        this.render = false
+        for(let i = 0; i < 4; i++){
+            let _width = this.width
+            let _height = this.height
+            let _x = this.position._x
+            let _y = this.position._y
+            scene.add(
+            scene,
+            {
+                shape: 'rectangle',
+                width: _width * 0.30,
+                height: _height * 0.30,
+                x: _x,
+                y: _y,
+                strokeColor: 'gray',
+                fill: true,
+                fillColor: colors[Math.floor(utils.randomRange(0, 4))],
+                accelMag: 0,
+                speed: 15,
+                solid: true,
+                direction: Math.random() * 100,
+                movement: 'default',
+                friction: 0.965,
+                collision: 'edgeBounce',
+                mass: this.width,   
+                elasticity: 1,
+                nograv: true,
+                customProperties: {
+                    health: 5
+                },
+                customFunctions: [die],
+                collisionFunctions: [hurt],
+            }
+        )}
+    }
+}
 
 document.body.addEventListener('keydown', e => {
-    if(!ribbon){scene.add(
+    if(!ribbon && !control){scene.add(
     scene,
     {
         shape: 'rectangle',
@@ -141,12 +139,13 @@ document.body.addEventListener('keydown', e => {
         direction: dir(e.keyCode),
         movement: 'default',
         friction: 0.952,
-        mass: 5,
+        mass: 60,
         collision: 'edgeBounce',
         elasticity: 0.6,
         customProperties: {
             health: 5
         },
+        customFunctions: [die],
         collisionFunctions: [hurt],
     }
 )}
@@ -183,13 +182,13 @@ document.body.addEventListener('mousemove', e => {
    }
 })
 
-// let blocky_blocky = scene.add(
+// let boi = scene.add(
 //     scene,
 //     {
 //         shape: 'rectangle',
-//         width: 200,
-//         height: 200,
-//         x: 200,
+//         width: 60,
+//         height: 60,
+//         x: 600,
 //         y: 200,
 //         strokeColor: 'gray',
 //         fill: true,
@@ -197,17 +196,55 @@ document.body.addEventListener('mousemove', e => {
 //         accelMag: 0,
 //         speed: 0,
 //         solid: true,
-//         direction: Math.random() * 100,
+//         direction: 0,
 //         movement: 'default',
 //         friction: 0.965,
 //         collision: 'edgeBounce',
-//         mass: 999999,
+//         mass: 90,
 //         elasticity: 1,
 //         nograv: true,
 //         customProperties: {
-//             health: 5
+//             health: 500
 //         },
-//         customFunctions: [hurt, die]
+//         collisionFunctions: [hurt],
+//         customFunctions: [die]
 //     }
 // )
+
+document.body.addEventListener('keydown', e => {        
+           if(control){
+                keyCode = e.keyCode
+            switch(keyCode){
+            case 65:
+                console.log(65)
+                boi.acceleration.setAngle(15.75);
+                boi.velocity.setAngle(15.75)
+                boi.acceleration.setLength(0.07)
+    
+                break;
+            case 68:
+                console.log(68)
+                boi.acceleration.setAngle(0);
+                boi.velocity.setAngle(0);
+                boi.acceleration.setLength(0.07)
+    
+                break;
+            case 87:
+                console.log(87)
+                boi.acceleration.setAngle(4.7);
+                boi.velocity.setAngle(4.7);
+                boi.acceleration.setLength(0.07)
+    
+                break;
+            case 83:
+                console.log(83)
+                boi.acceleration.setAngle(1.5);
+                boi.velocity.setAngle(1.5);
+                boi.acceleration.setLength(0.07)
+    
+        }
+      }
+      
+    }
+)
 

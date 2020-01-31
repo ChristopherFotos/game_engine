@@ -23,6 +23,56 @@
     </div>
 
     <canvas id="canvas"></canvas>
+
+    
+    <div class="wrap">
+        <h1>So what's going on here?</h1>
+        <p>Props.js is a JavaScript library that lets designers work with physics-based motion -- without having to know anything about physics.
+           All the motion that you're seeing on screen is governed by velocity and acceleration vectors. The library also includes algorithms
+        for detecting and handling collision. You can see it in action in the demo above -- see how each block moves realistically in response to collision?
+    that's a product Props.js' collision handling algorithm. The API also lets you sub in your own collision handling and detecting algorithms.</p>
+
+           <p>Props.js API makes it easy to start an animated scene. It only takes two lines of JavaScript:</p> 
+           
+           <p>const scene  = new Scene("canvas", window.innerWidth, window.innerHeight);
+           startScene(scene);</p>
+
+           <p> first line creats a scene and saves it to a constant called 'scene.' It takes three arguments: the ID of the HTML5 canvas you want to target,
+           and your desired width and height. </p>
+
+           <p>the second line starts a scene. It only takes one argument, which is the scene you want to start (in this case our scene is simply named 'scene'). </p>
+
+           <p>Props.js also provides a simple syntax for adding animated objects (or Props) to your scene. Simple call the Scene.add() method, specify the scene you want to add the object to,
+            as the first argument. As the second argument, pass in an object full of options describing what you want the object to look like, and how you want it to behave: </p>
+
+            scene.add(<br>
+                scene,<br>
+                    shape: 'rectangle',<br>
+                    width: 100<br>
+                    height: 100,<br>
+                    x: 300<br>
+                    y: 500<br>
+                    strokeColor: 'gray',<br>
+                    fill: true,<br>
+                    fillColor: green<br>
+                    accelMag: 0,<br>
+                    speed: 15,<br>
+                    solid: true,<br>
+                    direction: 5<br>
+                }<br>
+            )<br>
+
+        <p>In this example, we're adding to the scene we set up in the previous code snippet. remember -- you call the method <i>on</i> the scene you're adding to (in our case, our scene is named 'scene'),
+            <i>and</i> you pass the name of that seen into the method as the first argument.</p>
+        
+        <p>The second argument is an object containing options that describe the shape and behaviour of our prop. </p>
+
+
+           
+
+
+        </p>
+    </div>
     
     
     <script src="vectors.js"></script>

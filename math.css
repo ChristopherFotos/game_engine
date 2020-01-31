@@ -11,3 +11,8 @@ canvas {
 #a {
     padding-left: 30px;
 }
+
+.wrap {
+    width: 40%;
+    padding-left: 30px
+}
