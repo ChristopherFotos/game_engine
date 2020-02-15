@@ -6,6 +6,7 @@ class Grid {
     this.cellSize = cellSize;
     this.columns = [];
     this.createGrid();
+    this.insertProps()
   }
 
   addColumn(x, y, width, scene) {
@@ -23,37 +24,55 @@ class Grid {
     }
   }
 
-  insertProps() {
-    this.scene.rectProps.forEach(prop => {
-      //Find the column the prop belongs to
-      let col = null;
-      this.columns.forEach(column => {
-        if (
-          utils.rangeIntersect(
-            column.x,
-            column.x + column.width,
-            prop.position._x,
-            prop.position._x + prop.width
-          )
-        ) {
-          col = column;
-        }
-      });
+  findColumns(prop){
+    const columns = [];
+    this.columns.forEach(column => {
+      if (
+        utils.rangeIntersect(
+          column.x,
+          column.x + column.width,
+          prop.position._x,
+          prop.position._x + prop.width
+        )
+      ) {
+        columns.push(column)
+      }
+    })
+    return columns
+  }
 
-      //Find the cell the prop belongs to
-      let cell = null;
-      col.cells.forEach(cell => {
-        if (
-          utils.rangeIntersect(
-            cell.x,
-            cell.x + cell.size,
-            prop.position._y,
-            prop.position._y + prop.height
-          )
-        ) {
-          col = column;
-        }
-      });
-    });
+  findCells(prop, column){
+    let propCells = []
+    column.cells.forEach(cell => {
+      if (
+        utils.rangeIntersect(
+          cell.y,
+          cell.y + cell.size,
+          prop.position._y,
+          prop.position._y + prop.height
+        )
+      ) {
+        propCells.push();
+      } 
+    })
+
+    return propCells;
+  }
+
+  insertProp(prop) {
+
+    let columns = this.findColumns(prop)
+
+    let cells = columns.forEach(column => {
+      this.findCells(prop, column)
+    })
+
+    return cells
+  }
+
+  insertPropArray(){
+    this.scene.rectProps.forEach(prop => {
+      
+    })
   }
 }
